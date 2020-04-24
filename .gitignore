@@ -1,0 +1,26 @@
+## OSX and Win
+*.DS_Store
+Desktop.ini
+._*
+Thumbs.db
+.Spotlight-V100
+.Trashes
+
+## Dependencies
+node_modules
+yarn.lock
+
+## Development
+*.log
+.cache
+.idea
+*.iml
+.nvmrc
+coverage
+
+## VSCode settings
+.vscode/*
+!.vscode/launch.json
+
+## Build files
+# dist

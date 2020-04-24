@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Demo</title>
+  <link href="style.css" rel="stylesheet">
+</head>
+<body>
+  <h1>Demo</h1>
+  <span data-sticky="nav" aria-hidden="true" class="anchor"></span>
+  <nav>
+    <ul>
+      <li><a href="#">Lorem ipsum </a></li>
+      <li><a href="#">Alias </a></li>
+      <li><a href="#">Illum </a></li>
+      <li><a href="#">Vero placeat </a></li>
+    </ul>
+  </nav>
+  <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo rerum ex dolorum eligendi ea sint doloribus provident nobis nihil? Perspiciatis repudiandae beatae magnam corrupti? Ad numquam ipsa tempora quibusdam qui?</p>
+  <p>Odit sapiente tempora distinctio fugit, unde nam expedita nostrum illum recusandae quod, id officia veritatis veniam suscipit inventore repudiandae, consequuntur vel praesentium omnis iste cupiditate alias dicta voluptatem cumque? Doloribus.</p>
+  <p>Sunt nesciunt quas repudiandae sed. Beatae veniam autem totam quis, saepe dolor, illo voluptate eum adipisci voluptas culpa natus harum doloribus odit deleniti impedit ratione perspiciatis delectus corporis. Voluptatum, delectus.</p>
+  <p>A maxime quisquam commodi iste veniam dolorum unde atque, autem, dolorem eius praesentium velit officiis ducimus repellendus similique magni eaque et delectus iusto distinctio explicabo consequatur sed ratione quasi. Adipisci!</p>
+  <p>Dignissimos quisquam molestiae eaque itaque, architecto deleniti. Adipisci fugiat omnis ut nobis blanditiis ex atque obcaecati quis accusantium, dolores enim unde velit accusamus reiciendis quod maxime suscipit vel quia ipsum?</p>
+  <img data-src="http://placekitten.com/g/200/300" width="200" height="300" alt="Kitten images">
+  <p>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Explicabo rerum ex dolorum eligendi ea sint doloribus provident nobis nihil? Perspiciatis repudiandae beatae magnam corrupti? Ad numquam ipsa tempora quibusdam qui?</p>
+  <p>Odit sapiente tempora distinctio fugit, unde nam expedita nostrum illum recusandae quod, id officia veritatis veniam suscipit inventore repudiandae, consequuntur vel praesentium omnis iste cupiditate alias dicta voluptatem cumque? Doloribus.</p>
+  <p>Sunt nesciunt quas repudiandae sed. Beatae veniam autem totam quis, saepe dolor, illo voluptate eum adipisci voluptas culpa natus harum doloribus odit deleniti impedit ratione perspiciatis delectus corporis. Voluptatum, delectus.</p>
+  <p>A maxime quisquam commodi iste veniam dolorum unde atque, autem, dolorem eius praesentium velit officiis ducimus repellendus similique magni eaque et delectus iusto distinctio explicabo consequatur sed ratione quasi. Adipisci!</p>
+  <p>Dignissimos quisquam molestiae eaque itaque, architecto deleniti. Adipisci fugiat omnis ut nobis blanditiis ex atque obcaecati quis accusantium, dolores enim unde velit accusamus reiciendis quod maxime suscipit vel quia ipsum?</p>
+  <img data-src="http://placekitten.com/g/400/300" width="400" height="300" alt="Kitten images">
+
+  <script src="../dist/chivatu.js"></script>
+  <script>
+    const chivatu = new Chivatu();
+    chivatu.add({
+      selector: 'img[data-src]',
+      once: true,
+      onVisible: (item) => {
+        item.src = item.dataset.src;
+      }
+    })
+    chivatu.add({
+      selector: '[data-sticky]',
+      onVisible: (item) => {
+        document.querySelector(item.dataset.sticky).classList.remove('sticky');
+      },
+      onHidden: (item) => {
+        document.querySelector(item.dataset.sticky).classList.add('sticky');
+      }
+    })
+  </script>
+</body>
+</html>
