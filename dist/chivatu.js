@@ -6,18 +6,17 @@
 
   /**
    * Class Chivatu
-   * Checks if elements enter the viewport. Uses singleton pattern.
+   * Checks if elements enter the viewport
    *
    * Public method
    *  - add
    *  - isSupported
    *
    * Use example:
-   * new Chivatu().add({
-        selector: '[data-whatever], .this-is-a-class',
+   * new Chivatu().add(domNode|domList, {
         once: true | false,
         onVisible: (item, ratio) => {show(item)},
-        onHidden: (item, ratio) => {hide(item)}
+        onHidden: (item) => {hide(item)}
       });
    */
   class Chivatu {
@@ -29,7 +28,7 @@
 
       Chivatu.instance = this;
 
-      this.config = [];
+      this.subscribers = new WeakMap();
       this.observer;
 
       this.options = Object.assign({
@@ -62,20 +61,26 @@
 
     /**
      * Adds elements to observer
-     * It receives an objetct like this
+     * The available options are:
      * {
-     *    selector: String. For selecting elements with QuerySelector. Default ''
      *    once: Boolean. If only needs to intersect once. Default false
      *    onVisible: Function. Executed when element enters the viewport. Receives DOM Element and IntersectionRatio
      *    onHidden: Function. Executed when element leaves completely the viewport
      * }
-     * @param {Object} item
+     * @param {NodeElement|NodeList} domNode Add item to suscribers weakMap. If it is a NodeList, loops through it and call recrusively.
+     * @param {Object} options Config options
      */
-    add(item) {
-      const { selector } = item;
+    add(domNode, options) {
+      if (domNode instanceof NodeList) {
+        domNode.forEach((node) => this.add(node, options));
+        return;
+      }
+      if (!domNode || this.subscribers.has(domNode)) {
+        return
+      }
 
-      this.config.push(item);
-      document.querySelectorAll(selector).forEach((i) => this.observer.observe(i));
+      this.subscribers.set(domNode, options);
+      this.observer.observe(domNode);
     }
 
     /**
@@ -84,17 +89,13 @@
      * @param {Number [0, 1]} ratio Ratio of the element that is visible on the viewport
      */
     _loadElement(item, ratio) {
-      for (let c of this.config) {
-        let { selector, once, onVisible } = c;
+      const { once, onVisible } = this.subscribers.get(item);
 
-        if (item.matches(selector)) {
-          if (typeof onVisible == 'function') {
-            onVisible(item, ratio);
-          }
-          if (once) {
-            this.observer.unobserve(item);
-          }
-        }
+      if (typeof onVisible == 'function') {
+        onVisible.call(null, item, ratio);
+      }
+      if (once) {
+        this.observer.unobserve(item);
       }
     }
 
@@ -103,12 +104,10 @@
      * @param {Node DOM} item DOM Element that is not intersecting with the viewport
      */
     _unloadElement(item) {
-      for (let c of this.config) {
-        let { selector, onHidden } = c;
+      const { onHidden } = this.subscribers.get(item);
 
-        if (item.matches(selector) && typeof onHidden == 'function') {
-          onHidden(item);
-        }
+      if (typeof onHidden == 'function') {
+        onHidden.call(null, item);
       }
     }
   }

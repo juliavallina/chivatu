@@ -33,15 +33,10 @@
   <script src="../dist/chivatu.js"></script>
   <script>
     const chivatu = new Chivatu();
-    chivatu.add({
-      selector: 'img[data-src]',
+    chivatu.add(document.querySelectorAll('img[data-src]'), {
       once: true,
-      onVisible: (item) => {
-        item.src = item.dataset.src;
-      }
     })
-    chivatu.add({
-      selector: '[data-sticky]',
+    chivatu.add(document.querySelectorAll('[data-sticky]'), {
       onVisible: (item) => {
         document.querySelector(item.dataset.sticky).classList.remove('sticky');
       },
