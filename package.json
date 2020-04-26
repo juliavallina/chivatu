@@ -13,11 +13,14 @@
     "url": "git+https://github.com/juliavallina/chivatu.git"
   },
   "keywords": [
+    "intersection",
+    "observer",
     "IntersectionObserver",
-    "JavasScript",
+    "javascript",
     "viewport",
-    "sensor",
-    "visibility"
+    "visibility",
+    "front-end",
+    "web"
   ],
   "author": "juliavallina",
   "license": "ISC",
